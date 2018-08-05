@@ -31,6 +31,12 @@ var listenFlag = flag.String("listen", ":8888", "Port to listen on (supports add
 // Pretty prints JSON to stdout
 func HandleRequest(writer http.ResponseWriter, request *http.Request) {
 
+	if request.Method != "POST" {
+		log.Println("Invalid request method (" + request.Method + ") received at " + request.URL.Path + " from IP: " + request.RemoteAddr)
+		fmt.Fprintln(writer, "\"POST only\"")
+		return
+	}
+
 	log.Println("Request received at " + request.URL.Path + " from IP: " + request.RemoteAddr)
 
 	// We always return JSON.
